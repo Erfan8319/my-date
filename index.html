@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Date Planner ❤️</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:tahoma;
+}
+
+body{
+    background:#fff5f8;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{
+    width:90%;
+    max-width:700px;
+    background:white;
+    padding:40px;
+    border-radius:25px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.step{
+    display:none;
+}
+
+.active{
+    display:block;
+}
+
+h1{
+    text-align:center;
+    color:#e65a8e;
+    margin-bottom:25px;
+}
+
+.buttons{
+    text-align:center;
+    margin-top:30px;
+}
+
+button{
+    border:none;
+    padding:12px 25px;
+    border-radius:30px;
+    cursor:pointer;
+    font-size:18px;
+}
+
+.yes{
+    background:#ff70a6;
+    color:white;
+}
+
+.no{
+    background:#ddd;
+    position:absolute;
+}
+
+input[type="date"]{
+    width:100%;
+    padding:15px;
+    border-radius:12px;
+    border:1px solid #ddd;
+}
+
+.option{
+    border:2px solid #eee;
+    padding:18px;
+    margin:12px 0;
+    border-radius:15px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.option:hover{
+    border-color:#ff70a6;
+}
+
+.selected{
+    border-color:#ff70a6;
+    background:#fff0f6;
+}
+
+.result{
+    text-align:center;
+    line-height:2.5;
+    font-size:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- STEP 1 -->
+
+<div class="step active" id="step1">
+
+<h1>میشه با من دیت بذاری؟ ❤️</h1>
+
+<div class="buttons">
+
+<button class="yes" onclick="nextStep(2)">
+بله 🥰
+</button>
+
+<button class="no" id="noBtn">
+خیر 😅
+</button>
+
+</div>
+
+</div>
+
+<!-- STEP 2 -->
+
+<div class="step" id="step2">
+
+<h1>چه تاریخی؟ 📅</h1>
+
+<input type="date" id="date">
+
+<div class="buttons">
+<button class="yes" onclick="nextStep(3)">
+ادامه
+</button>
+</div>
+
+</div>
+
+<!-- STEP 3 -->
+
+<div class="step" id="step3">
+
+<h1>چه ساعتی؟ ⏰</h1>
+
+<div class="option" onclick="selectTime(this,'صبح')">
+صبح ☀️
+</div>
+
+<div class="option" onclick="selectTime(this,'عصر')">
+عصر 🌤️
+</div>
+
+<div class="option" onclick="selectTime(this,'شب')">
+شب 🌙
+</div>
+
+<div class="buttons">
+<button class="yes" onclick="nextStep(4)">
+ادامه
+</button>
+</div>
+
+</div>
+
+<!-- STEP 4 -->
+
+<div class="step" id="step4">
+
+<h1>کجا بریم؟ 🍽️</h1>
+
+<div class="option" onclick="selectPlace(this,'کافه')">
+☕ کافه
+</div>
+
+<div class="option" onclick="selectPlace(this,'رستوران')">
+🍝 رستوران
+</div>
+
+<div class="option" onclick="selectPlace(this,'فست فود')">
+🍔 فست فود
+</div>
+
+<div class="buttons">
+<button class="yes" onclick="showResult()">
+ثبت نهایی ❤️
+</button>
+</div>
+
+</div>
+
+<!-- STEP 5 -->
+
+<div class="step" id="step5">
+
+<h1>قرارمون ثبت شد ❤️</h1>
+
+<div class="result" id="result"></div>
+
+</div>
+
+</div>
+
+<script>
+
+let selectedTime = "";
+let selectedPlace = "";
+
+const noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseenter",()=>{
+
+const x =
+Math.random() *
+(window.innerWidth - 150);
+
+const y =
+Math.random() *
+(window.innerHeight - 80);
+
+noBtn.style.left = x + "px";
+noBtn.style.top = y + "px";
+
+});
+
+function nextStep(step){
+
+document.querySelectorAll(".step")
+.forEach(item=>item.classList.remove("active"));
+
+document
+.getElementById("step"+step)
+.classList.add("active");
+
+}
+
+function selectTime(el,time){
+
+document
+.querySelectorAll("#step3 .option")
+.forEach(x=>x.classList.remove("selected"));
+
+el.classList.add("selected");
+
+selectedTime = time;
+
+}
+
+function selectPlace(el,place){
+
+document
+.querySelectorAll("#step4 .option")
+.forEach(x=>x.classList.remove("selected"));
+
+el.classList.add("selected");
+
+selectedPlace = place;
+
+}
+
+function showResult(){
+
+const date =
+document.getElementById("date").value;
+
+document
+.querySelectorAll(".step")
+.forEach(item=>item.classList.remove("active"));
+
+document
+.getElementById("step5")
+.classList.add("active");
+
+document.getElementById("result").innerHTML =
+
+`💖 عالیه!
+
+<br><br>
+
+📅 تاریخ:
+<b>${date}</b>
+
+<br>
+
+⏰ زمان:
+<b>${selectedTime}</b>
+
+<br>
+
+📍 مکان:
+<b>${selectedPlace}</b>
+
+<br><br>
+
+منتظر اون روزم ❤️`;
+
+}
+
+</script>
+
+</body>
+</html>
